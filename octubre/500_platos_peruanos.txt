@@ -1,0 +1,505 @@
+LISTA DE 500 PLATOS Y PREPARACIONES DE LA GASTRONOMÍA PERUANA
+===============================================================
+
+Nota: La lista reúne platos, sopas, entradas, preparaciones regionales y algunos postres y comidas tradicionales del Perú. Incluye variantes regionales y de una misma preparación.
+
+001. Ají de gallina
+002. Arroz con pollo
+003. Arroz con pato
+004. Arroz chaufa
+005. Arroz chaufa de pollo
+006. Arroz chaufa de carne
+007. Arroz chaufa de mariscos
+008. Arroz tapado
+009. Arroz a la jardinera
+010. Arroz con mariscos
+011. Arroz con pato a la chiclayana
+012. Arroz con pato norteño
+013. Arroz con pato a la norteña
+014. Lomo saltado
+015. Lomo a lo pobre
+016. Tacu tacu
+017. Tacu tacu con lomo
+018. Tacu tacu con bistec
+019. Tacu tacu con mariscos
+020. Tacu tacu con huevo
+021. Pollo a la brasa
+022. Pollo broaster
+023. Pollo al horno peruano
+024. Pollo guisado
+025. Pollo saltado
+026. Pollo al sillao
+027. Pollo al maní
+028. Pollo en salsa de huacatay
+029. Bistec a lo pobre
+030. Bistec apanado
+031. Bistec encebollado
+032. Bistec con papas
+033. Bistec con arroz
+034. Seco de carne
+035. Seco de res
+036. Seco de cabrito
+037. Seco de pollo
+038. Seco a la norteña
+039. Seco de chabelo
+040. Cabrito a la norteña
+041. Cabrito con frijoles
+042. Estofado de res
+043. Estofado de pollo
+044. Estofado de carne
+045. Carapulcra
+046. Carapulcra chinchana
+047. Carapulcra con sopa seca
+048. Sopa seca
+049. Sopa seca chinchana
+050. Sopa seca con carapulcra
+051. Frejoles con seco
+052. Frejoles con arroz
+053. Frejoles batidos
+054. Frejoles a la norteña
+055. Pallares guisados
+056. Pallares verdes
+057. Pallares con seco
+058. Lentejas guisadas
+059. Lentejas con arroz
+060. Olluquito con charqui
+061. Olluquito con carne
+062. Olluquito con pollo
+063. Olluco con charqui
+064. Adobo arequipeño
+065. Adobo de chancho
+066. Chancho al horno
+067. Chancho al cilindro
+068. Chancho al palo
+069. Chancho en salsa de tamarindo
+070. Chicharrón de cerdo
+071. Chicharrón de chancho
+072. Chicharrón de pota
+073. Chicharrón de pollo
+074. Chicharrón de pescado
+075. Chicharrón de camarones
+076. Chicharrón de calamar
+077. Chicharrón de pulpo
+078. Chicharrón de alpaca
+079. Chicharrón de cuy
+080. Pachamanca
+081. Pachamanca a la tierra
+082. Pachamanca de tres carnes
+083. Cuy chactado
+084. Cuy al horno
+085. Cuy relleno
+086. Cuy colorado
+087. Cuy en pachamanca
+088. Cuy guisado
+089. Picante de cuy
+090. Cuy con papas
+091. Anticuchos de corazón
+092. Anticuchos de pollo
+093. Anticuchos de carne
+094. Anticuchos de pescado
+095. Anticuchos de alpaca
+096. Rachi
+097. Choncholí
+098. Mollejitas a la parrilla
+099. Parrillada peruana
+100. Parrilla de anticuchos
+101. Puca picante
+102. Puca picante ayacuchana
+103. Mondongo ayacuchano
+104. Puca picante con chicharrón
+105. Chiri uchu
+106. Chairo
+107. Chupe de camarones
+108. Chupe de camarones arequipeño
+109. Chupe de habas
+110. Chupe de quinua
+111. Chupe de olluco
+112. Chupe de pescado
+113. Chupe de camarones con arroz
+114. Chaque arequipeño
+115. Chaque de tripas
+116. Adobo de Arequipa
+117. Solterito arequipeño
+118. Ocopa arequipeña
+119. Rocoto relleno
+120. Rocoto relleno arequipeño
+121. Rocoto relleno con pastel de papa
+122. Pastel de papa
+123. Pastel de papa arequipeño
+124. Escribano arequipeño
+125. Cau cau
+126. Cau cau de mondongo
+127. Cau cau de pollo
+128. Cau cau de mariscos
+129. Mondonguito a la italiana
+130. Patita con maní
+131. Patita de cerdo con maní
+132. Patasca
+133. Patasca andina
+134. Patasca de mote
+135. Caldo de cabeza
+136. Caldo de cabeza de carnero
+137. Caldo de gallina
+138. Caldo de gallina con fideos
+139. Caldo de mote
+140. Caldo de mote con carne
+141. Caldo de cordero
+142. Caldo de siete semillas
+143. Caldo de papa
+144. Caldo verde
+145. Caldo verde de Cajamarca
+146. Caldo de queso
+147. Caldo de habas
+148. Sopa criolla
+149. Sopa a la minuta
+150. Sopa de verduras
+151. Sopa de quinua
+152. Sopa de trigo
+153. Sopa de morón
+154. Sopa de mote
+155. Sopa de olluco
+156. Sopa de chuño
+157. Chupe de quinua con queso
+158. Aguadito de pollo
+159. Aguadito de pescado
+160. Aguadito de mariscos
+161. Aguadito de pato
+162. Parihuela
+163. Parihuela de mariscos
+164. Parihuela de pescado
+165. Chilcano de pescado
+166. Chilcano de mariscos
+167. Sudado de pescado
+168. Sudado de corvina
+169. Sudado de cabrilla
+170. Sudado de mero
+171. Sudado de conchas negras
+172. Sudado de mariscos
+173. Pescado a lo macho
+174. Pescado a la chorrillana
+175. Pescado sudado a la norteña
+176. Pescado frito con arroz y yuca
+177. Pescado frito con sarza criolla
+178. Pescado apanado
+179. Jalea mixta
+180. Jalea de pescado
+181. Jalea de mariscos
+182. Jalea de pota
+183. Jalea de calamar
+184. Jalea de camarones
+185. Chicharrón mixto
+186. Chicharrón de mariscos
+187. Arroz con mariscos norteño
+188. Arroz con mariscos chalaco
+189. Arroz con conchas negras
+190. Arroz con camarones
+191. Arroz con choros
+192. Arroz con cangrejo
+193. Arroz con calamar
+194. Arroz con pota
+195. Arroz marinero
+196. Arroz verde con mariscos
+197. Ceviche de pescado
+198. Ceviche mixto
+199. Ceviche de camarones
+200. Ceviche de conchas negras
+201. Ceviche de pulpo
+202. Ceviche de pota
+203. Ceviche de calamar
+204. Ceviche de caballa
+205. Ceviche de bonito
+206. Ceviche de lenguado
+207. Ceviche de mero
+208. Ceviche de corvina
+209. Ceviche de pejerrey
+210. Ceviche de trucha
+211. Ceviche de conchas de abanico
+212. Ceviche de cangrejo
+213. Ceviche carretillero
+214. Ceviche nikkei peruano
+215. Leche de tigre
+216. Leche de tigre mixta
+217. Leche de tigre de pescado
+218. Tiradito de pescado
+219. Tiradito de lenguado
+220. Tiradito al ají amarillo
+221. Tiradito a la crema de rocoto
+222. Tiradito al olivo
+223. Tiradito de atún
+224. Tiradito de pulpo
+225. Tiradito de mariscos
+226. Escabeche de pescado
+227. Escabeche de pollo
+228. Escabeche de bonito
+229. Escabeche de caballa
+230. Escabeche de pato
+231. Escabeche de camarones
+232. Causa limeña
+233. Causa rellena de pollo
+234. Causa rellena de atún
+235. Causa rellena de camarones
+236. Causa rellena de pulpo
+237. Causa de cangrejo
+238. Causa de mariscos
+239. Causa acevichada
+240. Causa de palta
+241. Causa de pollo
+242. Causa de atún
+243. Causa de camarones
+244. Causa de pescado
+245. Papa a la huancaína
+246. Papa rellena
+247. Papa rellena de carne
+248. Papa rellena de pollo
+249. Papa rellena de mariscos
+250. Papa rellena de camarones
+251. Papa rellena arequipeña
+252. Papas doradas con ají
+253. Papas a la ocopa
+254. Papas con huancaína y huevo
+255. Papas en salsa de huacatay
+256. Yuca frita con huancaína
+257. Yuca con ocopa
+258. Yuca rellena
+259. Yuca rellena de carne
+260. Yuca a la huancaína
+261. Yuca frita con salsa criolla
+262. Camote frito
+263. Camote glaseado
+264. Choclo con queso
+265. Choclo con queso andino
+266. Choclo con huancaína
+267. Choclo a la parrilla
+268. Habitas salteadas
+269. Habas con queso
+270. Habas sancochadas con queso
+271. Tarwi guisado
+272. Tarwi con queso
+273. Quinua atamalada
+274. Quinua guisada
+275. Quinua con verduras
+276. Quinua con queso
+277. Quinua chaufa
+278. Quinua atamalada con queso
+279. Kiwicha guisada
+280. Kiwicha con leche
+281. Mote con queso
+282. Mote con chicharrón
+283. Mote pelado con queso
+284. Chuño phuti
+285. Chuño colado
+286. Chuño con queso
+287. Tunta con queso
+288. Moraya guisada
+289. Olluco con queso
+290. Olluco guisado
+291. Mashua guisada
+292. Cañihua guisada
+293. Tamales
+294. Tamal limeño
+295. Tamal criollo
+296. Tamal de pollo
+297. Tamal de chancho
+298. Tamal verde
+299. Tamal serrano
+300. Tamal cusqueño
+301. Humitas
+302. Humita salada
+303. Humita dulce
+304. Humita de queso
+305. Humita de choclo
+306. Humita cusqueña
+307. Humita verde
+308. Humita rellena
+309. Juane
+310. Juane de gallina
+311. Juane de arroz
+312. Juane de yuca
+313. Juane de chonta
+314. Avispa juane
+315. Nina juane
+316. Sara juane
+317. Tacacho con cecina
+318. Tacacho con chicharrón
+319. Tacacho con cecina y chorizo
+320. Tacacho amazónico
+321. Cecina con tacacho
+322. Cecina frita
+323. Chorizo amazónico con tacacho
+324. Inchicapi
+325. Inchicapi de gallina
+326. Inchicapi de pescado
+327. Patarashca
+328. Patarashca de pescado
+329. Patarashca de doncella
+330. Patarashca de paiche
+331. Paiche frito
+332. Paiche a la parrilla
+333. Paiche al ajo
+334. Paiche en salsa de cocona
+335. Paiche con tacacho
+336. Doncella frita
+337. Doncella a la parrilla
+338. Dorado amazónico frito
+339. Dorado amazónico a la parrilla
+340. Sudado amazónico
+341. Sudado de paiche
+342. Caldo de carachama
+343. Caldo de doncella
+344. Caldo de paiche
+345. Caldo de pescado amazónico
+346. Sopa de motelo
+347. Chontajuane
+348. Chonta con palmito
+349. Ensalada de chonta
+350. Ensalada de palmito
+351. Inchicucho
+352. Timbuche
+353. Timbuche de pescado
+354. Timbuche de carachama
+355. Zaragoza amazónica
+356. Fariña con pescado
+357. Masato con yuca
+358. Tacacho de plátano verde
+359. Maduro asado con queso
+360. Plátano relleno amazónico
+361. Plátano frito con cecina
+362. Majaz guisado
+363. Ronsoco guisado
+364. Carachama frita
+365. Boquichico frito
+366. Boquichico sudado
+367. Doncella sudada
+368. Chiri uchu cusqueño
+369. Chairo cusqueño
+370. Timpu
+371. Timpu de cordero
+372. Timpu cusqueño
+373. Kapchi de habas
+374. Kapchi de setas
+375. Kapchi de chuño
+376. Kapchi de habas con queso
+377. Choclo con queso cusqueño
+378. Papas con queso
+379. Queso kapchi
+380. Olluquito cusqueño
+381. Adobo cusqueño
+382. Adobo de cerdo cusqueño
+383. Chicharrón cusqueño
+384. Chicharrón de chancho cusqueño
+385. Lechón al horno cusqueño
+386. Chiriuchu de Cusco
+387. Pepián de choclo
+388. Pepián de cuy
+389. Pepián de pollo
+390. Pepián de pavo
+391. Pepián de arroz
+392. Locro de zapallo
+393. Locro de zapallo con queso
+394. Locro de gallina
+395. Locro de pecho
+396. Locro de pecho arequipeño
+397. Locro de zapallo norteño
+398. Locro de papas
+399. Locro de habas
+400. Locro de olluco
+401. Locro de quinua
+402. Picante de pallares
+403. Picante de habas
+404. Picante de olluco
+405. Picante de papas
+406. Picante de camarones
+407. Picante de mariscos
+408. Picante de queso
+409. Picante de quinua
+410. Pepián de choclo con pollo
+411. Pepián de choclo con chancho
+412. Pepián de maíz
+413. Matasquita de carne
+414. Matasquita de papa
+415. Matasquita de olluco
+416. Chanfainita
+417. Chanfainita de bofe
+418. Chanfainita con mote
+419. Rachi con papa
+420. Rachi con choclo
+421. Sangrecita
+422. Sangrecita con papa
+423. Relleno de papa
+424. Relleno de pollo
+425. Relleno de carne
+426. Relleno de chancho
+427. Morcilla peruana
+428. Morcilla con papa
+429. Patita en fiambre
+430. Patita con maní y arroz
+431. Patas de cerdo guisadas
+432. Mondongo con mote
+433. Mondongo con papa
+434. Mondongo a la norteña
+435. Tripas guisadas
+436. Tripas con mote
+437. Tripas a la parrilla
+438. Sangrecita con arroz
+439. Bofe saltado
+440. Bofe guisado
+441. Escabeche de cebolla
+442. Sarsa criolla
+443. Sarsa de patitas
+444. Sarsa de camarones
+445. Solterito de queso
+446. Solterito de habas
+447. Solterito de pallares
+448. Solterito de choclo
+449. Solterito arequipeño con queso
+450. Ensalada de pallares
+451. Ensalada de quinua
+452. Ensalada de tarwi
+453. Ensalada de chochos
+454. Cebiche de chochos
+455. Ceviche de tarwi
+456. Chochos con cebolla
+457. Tarwi con ají
+458. Tarwi con tomate
+459. Choclo con habas
+460. Habas con ocopa
+461. Queso helado arequipeño
+462. Queso helado tradicional
+463. Queso helado de canela
+464. Arroz zambito
+465. Arroz con leche
+466. Mazamorra morada
+467. Mazamorra de calabaza
+468. Mazamorra de chancaca
+469. Mazamorra de cochino
+470. Mazamorra de quinua
+471. Mazamorra de maíz morado
+472. Mazamorra de tocosh
+473. Turrón de Doña Pepa
+474. Picarones
+475. Picarones con miel
+476. Suspiro a la limeña
+477. Suspiro limeño
+478. Alfajores peruanos
+479. Alfajor de maicena peruano
+480. King kong de manjarblanco
+481. King kong lambayecano
+482. Guargüeros
+483. Ranfañote
+484. Frejol colado
+485. Manjarblanco
+486. Manjarblanco de lúcuma
+487. Dulce de lúcuma
+488. Dulce de camote
+489. Dulce de zapallo
+490. Dulce de higos
+491. Higos con queso
+492. Chapanas
+493. Chumbeque
+494. Alfajores de miel
+495. Tejas de Ica
+496. Chocotejas
+497. Tejas de pecanas
+498. Tejas de limón
+499. Ponderaciones
+500. Empanadas peruanas
