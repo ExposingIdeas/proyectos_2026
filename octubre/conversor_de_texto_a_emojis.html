@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conversor de Texto a Emojis</title>
+  <!-- Tailwind CSS para diseño moderno y estilizado -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-800 flex flex-col items-center p-4 sm:p-8 font-sans">
+
+  <main class="w-full max-w-2xl bg-white rounded-2xl shadow-xl shadow-slate-200/60 p-6 sm:p-8 border border-slate-100 mt-4 sm:mt-8">
+    <!-- Encabezado -->
+    <header class="text-center mb-6">
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Conversor Emoji ✨</h1>
+      <p class="text-sm sm:text-base text-slate-500 mt-1">Transforma tus palabras clave en emociones en tiempo real.</p>
+    </header>
+
+    <!-- Guía de palabras clave -->
+    <section class="bg-indigo-50/70 border border-indigo-100 rounded-xl p-3.5 mb-6">
+      <h2 class="text-xs font-semibold text-indigo-900 tracking-wider uppercase mb-2">Palabras clave disponibles:</h2>
+      <div class="flex flex-wrap gap-2 text-xs sm:text-sm font-medium">
+        <span class="inline-flex items-center gap-1.5 bg-white border border-indigo-200 px-2.5 py-1 rounded-lg text-slate-700 shadow-sm">
+          <code class="text-indigo-600 font-bold">aa</code> &rarr; <span class="text-base">😄</span> (Alegre)
+        </span>
+        <span class="inline-flex items-center gap-1.5 bg-white border border-indigo-200 px-2.5 py-1 rounded-lg text-slate-700 shadow-sm">
+          <code class="text-indigo-600 font-bold">ee</code> &rarr; <span class="text-base">😠</span> (Molesto)
+        </span>
+        <span class="inline-flex items-center gap-1.5 bg-white border border-indigo-200 px-2.5 py-1 rounded-lg text-slate-700 shadow-sm">
+          <code class="text-indigo-600 font-bold">ii</code> &rarr; <span class="text-base">😢</span> (Triste)
+        </span>
+        <span class="inline-flex items-center gap-1.5 bg-white border border-indigo-200 px-2.5 py-1 rounded-lg text-slate-700 shadow-sm">
+          <code class="text-indigo-600 font-bold">oo</code> &rarr; <span class="text-base">😮</span> (Sorprendido)
+        </span>
+        <span class="inline-flex items-center gap-1.5 bg-white border border-indigo-200 px-2.5 py-1 rounded-lg text-slate-700 shadow-sm">
+          <code class="text-indigo-600 font-bold">uu</code> &rarr; <span class="text-base">🥳</span> (Fiesta)
+        </span>
+      </div>
+    </section>
+
+    <!-- Área de entrada -->
+    <div class="mb-5">
+      <label for="inputText" class="block text-sm font-semibold text-slate-700 mb-1.5">Escribe tu mensaje:</label>
+      <textarea
+        id="inputText"
+        rows="4"
+        placeholder="Ejemplo: ¡Hola aa! Hoy es viernes uu pero tengo que trabajar ee..."
+        class="w-full p-3.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition text-slate-800 placeholder-slate-400 text-sm sm:text-base resize-none"
+      ></textarea>
+    </div>
+
+    <!-- Área de resultado -->
+    <div class="mb-5">
+      <div class="flex justify-between items-center mb-1.5">
+        <label class="block text-sm font-semibold text-slate-700">Resultado:</label>
+        <button
+          id="copyBtn"
+          class="inline-flex items-center gap-1 text-xs sm:text-sm font-semibold text-indigo-600 hover:text-indigo-800 transition py-1 px-2.5 rounded-lg hover:bg-indigo-50"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+          </svg>
+          <span id="copyBtnText">Copiar</span>
+        </button>
+      </div>
+
+      <!-- Contenedor del texto traducido -->
+      <div
+        id="outputText"
+        class="w-full min-h-[96px] p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-sm sm:text-base break-words whitespace-pre-wrap select-all"
+      >Escribe arriba para ver el resultado...</div>
+    </div>
+
+    <!-- Mensaje temporal de copiado -->
+    <div id="toast" class="opacity-0 transition-opacity duration-300 text-center text-xs font-semibold text-emerald-600">
+      ¡Copiado con éxito al portapapeles!
+    </div>
+  </main>
+
+  <script>
+    // Diccionario de equivalencias: palabra -> emoji
+    const emojiMap = {
+      'do': '♈',
+      'do#': '♉',
+      're': '♊ ',
+      're#': '♋',
+      'mi': '♌',
+      'fa': '♍',
+      'fa#': '♎',
+      'sol': '♏',
+      'sol#': '♐',
+      'la': '♑',
+      'la#': '♒',
+      'si': '♓'
+    };
+
+    const inputText = document.getElementById('inputText');
+    const outputText = document.getElementById('outputText');
+    const copyBtn = document.getElementById('copyBtn');
+    const copyBtnText = document.getElementById('copyBtnText');
+    const toast = document.getElementById('toast');
+
+    // Función de reemplazo usando expresiones regulares (con límites de palabra e insensible a mayúsculas)
+    function convertirTexto(texto) {
+      if (!texto.trim()) {
+        return 'Escribe arriba para ver el resultado...';
+      }
+
+      let resultado = texto;
+
+      // 1. Ordenamos las entradas por longitud de clave descendente ("aa#" antes que "aa")
+      const entradasOrdenadas = Object.entries(emojiMap).sort(
+        (a, b) => b[0].length - a[0].length
+      );
+
+      for (const [clave, emoji] of entradasOrdenadas) {
+        // Escapar caracteres reservados de regex por si agregas ?, $, *, etc.
+        const claveEscapada = clave.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+        // \b al inicio asegura que no sea parte de una palabra previa (ej. "creaa")
+        // (?!\w) al final asegura que termine ahí y no continúe como palabra (ej. "aa#abc" o "aabc")
+        const regex = new RegExp(`\\b${claveEscapada}(?!\\w)`, 'gi');
+
+        resultado = resultado.replace(regex, emoji);
+      }
+
+      return resultado;
+    }
+
+    // Actualizar en tiempo real
+    inputText.addEventListener('input', () => {
+      outputText.textContent = convertirTexto(inputText.value);
+    });
+
+    // Copiar resultado al portapapeles
+    copyBtn.addEventListener('click', () => {
+      const textoParaCopiar = outputText.textContent;
+      if (!inputText.value.trim()) return;
+
+      // Usando un textarea temporal para compatibilidad de iframe
+      const tempTextarea = document.createElement('textarea');
+      tempTextarea.value = textoParaCopiar;
+      document.body.appendChild(tempTextarea);
+      tempTextarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempTextarea);
+
+      // Feedback visual
+      copyBtnText.textContent = '¡Copiado!';
+      toast.classList.remove('opacity-0');
+
+      setTimeout(() => {
+        copyBtnText.textContent = 'Copiar';
+        toast.classList.add('opacity-0');
+      }, 2000);
+    });
+  </script>
+</body>
+</html>

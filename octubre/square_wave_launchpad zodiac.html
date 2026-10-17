@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Launchpad Musical - Onda Cuadrada</title>
+  <!-- Tailwind CSS para diseño moderno y estilizado -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Efecto de brillo de pad al ser presionado */
+    .pad-active {
+      transform: scale(0.94);
+      filter: brightness(1.4) drop-shadow(0 0 12px rgba(56, 189, 248, 0.75));
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col items-center justify-center p-4 selection:bg-cyan-500 selection:text-black font-sans">
+
+  <!-- Contenedor Principal estilo sintetizador/launchpad -->
+  <main class="w-full max-w-4xl bg-slate-900/90 border border-slate-800 rounded-3xl p-5 sm:p-7 shadow-2xl backdrop-blur-md">
+    
+    <!-- Encabezado con detalles y control de volumen -->
+    <header class="flex flex-col sm:flex-row items-center justify-between gap-4 pb-6 border-b border-slate-800">
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400 bg-clip-text text-transparent">
+          SQUARE-WAVE LAUNCHPAD
+        </h1>
+        <p class="text-xs sm:text-sm text-slate-400">
+          3 Octavas (C3 a B5) • 36 Notas • Síntesis 8-Bit
+        </p>
+      </div>
+
+      <!-- Control de Volumen Master -->
+      <div class="flex items-center gap-3 bg-slate-950/70 border border-slate-800 px-4 py-2 rounded-xl">
+        <label for="volumeSlider" class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Vol</label>
+        <input 
+          id="volumeSlider" 
+          type="range" 
+          min="0" 
+          max="0.4" 
+          step="0.01" 
+          value="0.15" 
+          class="w-28 sm:w-36 accent-cyan-400 cursor-pointer"
+        >
+        <span id="volumeValue" class="text-xs font-mono text-cyan-400 w-8">38%</span>
+      </div>
+    </header>
+
+    <!-- Contenedor de las 3 Octavas -->
+    <section class="mt-6 flex flex-col gap-6" id="octavesContainer">
+      <!-- Se inyecta dinámicamente con JavaScript -->
+    </section>
+
+    <!-- Barra de estado y ayuda -->
+    <footer class="mt-6 pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between text-xs text-slate-400 gap-2">
+      <div class="flex items-center gap-2">
+        <span class="inline-block w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
+        <span id="lastPlayedInfo">Toca o haz clic sobre cualquier pad para reproducir.</span>
+      </div>
+      <div class="text-slate-500">
+        Web Audio API • Onda: <span class="text-cyan-400 font-mono font-semibold">square</span>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    /* =======================================================================
+       1. CONFIGURACIÓN DE AUDIO Y CONSTANTES MUSICALES
+       ======================================================================= */
+    // Creamos el contexto de Web Audio API de manera segura
+    let audioCtx = null;
+    
+    // Nombres de notas en notación anglosajona y latina
+    const NOTE_NAMES = [
+      { name: '♈',  es: 'Do',  isAccidental: false },
+      { name: '♉', es: 'Do#', isAccidental: true  },
+      { name: '♊',  es: 'Re',  isAccidental: false },
+      { name: '♋', es: 'Re#', isAccidental: true  },
+      { name: '♌',  es: 'Mi',  isAccidental: false },
+      { name: '♍',  es: 'Fa',  isAccidental: false },
+      { name: '♎', es: 'Fa#', isAccidental: true  },
+      { name: '♏',  es: 'Sol', isAccidental: false },
+      { name: '♐', es: 'Sol#',isAccidental: true  },
+      { name: '♑',  es: 'La',  isAccidental: false },
+      { name: '♒', es: 'La#', isAccidental: true  },
+      { name: '♓',  es: 'Si',  isAccidental: false }
+    ];
+
+    // Tres octavas consecutivas: 3 (Graves), 4 (Medios), 5 (Agudos)
+    const OCTAVES = [3, 4, 5];
+
+    // Elementos del DOM
+    const octavesContainer = document.getElementById('octavesContainer');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const volumeValue = document.getElementById('volumeValue');
+    const lastPlayedInfo = document.getElementById('lastPlayedInfo');
+
+    // Inicialización del AudioContext tras la primera interacción del usuario
+    function getAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    /* =======================================================================
+       2. CÁLCULO DE FRECUENCIA
+       Fórmula estándar temperada: f = 440 * 2^((semitono - 69) / 12)
+       A4 (semitono 69) = 440 Hz
+       ======================================================================= */
+    function getFrequency(noteIndex, octave) {
+      // noteIndex: 0 = C, 9 = A.
+      // En MIDI, C4 es el semitono 60 (octava 4, nota 0).
+      const midiNumber = (octave + 1) * 12 + noteIndex;
+      return 440 * Math.pow(2, (midiNumber - 69) / 12);
+    }
+
+    /* =======================================================================
+       3. GENERACIÓN DE NOTA CON ONDA CUADRADA ('square')
+       ======================================================================= */
+    // Mapa para gestionar osciladores activos si se mantiene presionado
+    const activeVoices = new Map();
+
+    function startNote(frequency, padId) {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+
+      // Si ya hay un sonido sonando en este pad, detenerlo suavemente
+      stopNote(padId);
+
+      // Crear oscilador y configurarlo como ONDA CUADRADA
+      const osc = ctx.createOscillator();
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(frequency, ctx.currentTime);
+
+      // Ganancia para envolvente (Envelope: Attack suave y Decay)
+      const gainNode = ctx.createGain();
+      const currentVol = parseFloat(volumeSlider.value);
+
+      // Ataque instantáneo pero libre de clicks (0.005s)
+      gainNode.gain.setValueAtTime(0.0001, ctx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(Math.max(currentVol, 0.0001), ctx.currentTime + 0.008);
+
+      // Conexión: Oscilador -> Ganancia -> Altavoces
+      osc.connect(gainNode);
+      gainNode.connect(ctx.destination);
+
+      osc.start();
+      activeVoices.set(padId, { osc, gainNode });
+    }
+
+    function stopNote(padId) {
+      if (!activeVoices.has(padId)) return;
+      const { osc, gainNode } = activeVoices.get(padId);
+      const ctx = getAudioContext();
+
+      // Liberación corta (Release de 0.08 segundos) para eliminar pops o clics
+      const releaseTime = 0.08;
+      try {
+        gainNode.gain.cancelScheduledValues(ctx.currentTime);
+        gainNode.gain.setValueAtTime(Math.max(gainNode.gain.value, 0.0001), ctx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + releaseTime);
+        osc.stop(ctx.currentTime + releaseTime);
+      } catch (err) {
+        // En caso de que ya se haya detenido
+      }
+
+      activeVoices.delete(padId);
+    }
+
+    /* =======================================================================
+       4. CONSTRUCCIÓN DE LA INTERFAZ DEL LAUNCHPAD
+       ======================================================================= */
+    OCTAVES.forEach((octave, octIndex) => {
+      // Bloque contenedor por octava
+      const octaveSection = document.createElement('div');
+      octaveSection.className = 'flex flex-col gap-2';
+
+      // Etiqueta indicadora de la octava
+      const octaveHeader = document.createElement('div');
+      octaveHeader.className = 'flex items-center justify-between text-xs font-bold text-slate-400 uppercase tracking-widest px-1';
+      octaveHeader.innerHTML = `
+        <span class="flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full ${octIndex === 0 ? 'bg-amber-400' : octIndex === 1 ? 'bg-cyan-400' : 'bg-purple-400'}"></span>
+          Octava ${octave} ${octIndex === 0 ? '(Baja)' : octIndex === 1 ? '(Media)' : '(Alta)'}
+        </span>
+        <span class="text-slate-500 font-mono text-[10px]">C${octave} - B${octave}</span>
+      `;
+      octaveSection.appendChild(octaveHeader);
+
+      // Cuadrícula de 12 pads (responsive: 4 cols móvil, 6 tablet, 12 desktop)
+      const padsGrid = document.createElement('div');
+      padsGrid.className = 'grid grid-cols-6 sm:grid-cols-6 lg:grid-cols-12 gap-2';
+
+      NOTE_NAMES.forEach((note, noteIndex) => {
+        const freq = getFrequency(noteIndex, octave);
+        const padId = `pad-${octave}-${noteIndex}`;
+        const noteFullName = `${note.name}`;
+        const noteFullSpanish = `${note.es}${octave}`;
+
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.id = padId;
+        //button.style.fontSize = '50px';
+
+        // Estilos diferenciados para notas naturales vs sostenidos
+        const bgStyle = note.isAccidental
+          ? 'bg-slate-800/90 hover:bg-slate-700/90 border-slate-700 text-sky-300'
+          : 'bg-slate-950/90 hover:bg-slate-800/90 border-slate-700/80 text-white';
+
+        button.className = `
+          relative flex flex-col items-center justify-center py-3.5 px-2 rounded-xl border
+          shadow-lg select-none cursor-pointer transition-all duration-75 active:outline-none
+          focus:outline-none ${bgStyle}
+        `;
+
+        button.innerHTML = `
+          <span class="text-2xl sm:text-2xl font-bold tracking-tight">${noteFullName}</span>
+        `;
+        //button.style.fontSize = '50px';
+
+        // Eventos táctiles y de ratón
+        const triggerPlay = (e) => {
+          e.preventDefault();
+          button.classList.add('pad-active');
+          startNote(freq, padId);
+          lastPlayedInfo.textContent = `Nota sonando: ${noteFullName} (${noteFullSpanish}) • ${freq.toFixed(2)} Hz`;
+        };
+
+        const triggerStop = (e) => {
+          e.preventDefault();
+          button.classList.remove('pad-active');
+          stopNote(padId);
+        };
+
+        // Ratón
+        button.addEventListener('mousedown', triggerPlay);
+        button.addEventListener('mouseup', triggerStop);
+        button.addEventListener('mouseleave', triggerStop);
+
+        // Pantallas táctiles / Mobile
+        button.addEventListener('touchstart', triggerPlay, { passive: false });
+        button.addEventListener('touchend', triggerStop, { passive: false });
+        button.addEventListener('touchcancel', triggerStop, { passive: false });
+
+        padsGrid.appendChild(button);
+      });
+
+      octaveSection.appendChild(padsGrid);
+      octavesContainer.appendChild(octaveSection);
+    });
+
+    /* =======================================================================
+       5. CONTROL DE VOLUMEN
+       ======================================================================= */
+    volumeSlider.addEventListener('input', (e) => {
+      const percentage = Math.round((e.target.value / 0.4) * 100);
+      volumeValue.textContent = `${percentage}%`;
+    });
+  </script>
+</body>
+</html>
