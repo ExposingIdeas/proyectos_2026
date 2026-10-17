@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Launchpad musical — 3 octavas</title>
+<style>
+:root{color-scheme:dark;--gap:7px}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;padding:20px;font-family:system-ui,Arial,sans-serif;background:linear-gradient(145deg,#071321,#111a32);color:#edf5ff;display:flex;justify-content:center;align-items:center}
+.app{width:min(100%,900px)}
+h1{font-size:1.25rem;margin:0 0 6px}
+p{color:#b9cbe0;font-size:.92rem;margin:0 0 16px}
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:16px}
+label{display:flex;align-items:center;gap:6px;font-size:.9rem}
+select,button{font:inherit;color:inherit;
+  background:#1b2d46;
+  border:1px solid #38516e;border-radius:8px;padding:8px 10px}
+button{cursor:pointer}
+#grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--gap)}
+.pad{min-width:0;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border:1px solid #35516e;border-radius:9px;
+  background:linear-gradient(#24415c,#152b42);
+  color:#eaf5ff;
+  font-weight:650;font-size:clamp(.65rem,1.6vw,.95rem);cursor:pointer;user-select:none;touch-action:none;box-shadow:0 4px 0 #07101b;transition:transform .06s,background .06s}
+.pad.sharp{background:linear-gradient(#17617a,#10364d);border-color:#2987a3;color:#c5f3ff}
+.pad.active,.pad:active{transform:translateY(3px);box-shadow:0 1px 0 #07101b;background:#e5b94e;color:#172033}
+.note-row{margin:16px 0 7px;color:#a9c3df;font-size:.8rem;letter-spacing:.08em}
+.hint{margin-top:14px;font-size:.82rem;color:#9fb4cb}
+@media(max-width:600px){body{padding:12px}#grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}.pad{font-size:.85rem}}
+</style>
+</head>
+<body>
+<main class="app">
+  <h1>Launchpad musical — 3 octavas</h1>
+  <p>36 pads cromáticos con sonido integrado. No necesitas un sintetizador externo.</p>
+  <div class="controls">
+    <label>Onda
+      <select id="wave">
+        <option value="sine">Suave (senoidal)</option>
+        <option value="triangle">Triangular</option>
+        <option value="square">Cuadrada</option>
+        <option value="sawtooth">Diente de sierra</option>
+      </select>
+    </label>
+    <label>Volumen <input id="volume" type="range" min="0" max="1" step=".01" value=".22"></label>
+    <label><input id="sustain" type="checkbox"> Mantener nota al tocar</label>
+    <button id="stop">Detener todo</button>
+  </div>
+  <div id="grid" aria-label="Pads de notas musicales"></div>
+  <div class="hint">Toca o mantén pulsado un pad para sonar. Activa «Mantener nota al tocar» para alternar cada nota con un toque. También funciona con el teclado: Z S X D C V G B H N J M para la primera octava.</div>
+</main>
+<script>
+(() => {
+  const names = ["Do","Do♯","Re","Re♯","Mi","Fa","Fa♯","Sol","Sol♯","La","La♯","Si"];
+  const grid = document.querySelector("#grid");
+  const wave = document.querySelector("#wave");
+  const volume = document.querySelector("#volume");
+  const sustain = document.querySelector("#sustain");
+  const active = new Map();
+  let audio = null;
+
+  function getAudio(){
+    if(!audio) audio = new (window.AudioContext || window.webkitAudioContext)();
+    if(audio.state === "suspended") audio.resume();
+    return audio;
+  }
+  function frequency(midi){ return 440 * Math.pow(2,(midi-69)/12); }
+  function start(note){
+    if(active.has(note.label)) return;
+    const ctx = getAudio();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = wave.value;
+    osc.frequency.value = frequency(note.midi);
+    gain.gain.setValueAtTime(0,ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(Number(volume.value),ctx.currentTime+.015);
+    osc.connect(gain); gain.connect(ctx.destination); osc.start();
+    active.set(note.label,{osc,gain,button:note.button});
+    note.button.classList.add("active");
+  }
+  function stop(label){
+    const voice = active.get(label);
+    if(!voice) return;
+    const ctx = getAudio(), now = ctx.currentTime;
+    voice.gain.gain.cancelScheduledValues(now);
+    voice.gain.gain.setTargetAtTime(0,now,.025);
+    try{voice.osc.stop(now+.12)}catch(e){}
+    voice.button.classList.remove("active");
+    active.delete(label);
+  }
+  const notes = [];
+  for(let octave=3;octave<=5;octave++){
+    for(let i=0;i<12;i++){
+      const label = names[i]+octave;
+      const note = {label,midi:(octave+1)*12+i,sharp:names[i].includes("♯"),button:null};
+      const button = document.createElement("button");
+      button.type="button";
+      button.className="pad"+(note.sharp?" sharp":"");
+      button.textContent=label;
+      button.setAttribute("aria-label","Tocar "+label);
+      note.button=button; notes.push(note); grid.appendChild(button);
+      let held=false;
+      const press=(event)=>{
+        event.preventDefault();
+        if(sustain.checked){ if(active.has(label)) stop(label); else start(note); }
+        else {held=true;start(note);}
+      };
+      const release=(event)=>{
+        if(event) event.preventDefault();
+        if(!sustain.checked && held){held=false;stop(label);}
+      };
+      button.addEventListener("pointerdown",press);
+      button.addEventListener("pointerup",release);
+      button.addEventListener("pointercancel",release);
+      button.addEventListener("lostpointercapture",release);
+      button.addEventListener("contextmenu",e=>e.preventDefault());
+    }
+  }
+  volume.addEventListener("input",()=>{
+    if(!audio)return;
+    for(const voice of active.values()) voice.gain.gain.setTargetAtTime(Number(volume.value),audio.currentTime,.01);
+  });
+  document.querySelector("#stop").addEventListener("click",()=>[...active.keys()].forEach(stop));
+  const keyMap={"z":0,"s":1,"x":2,"d":3,"c":4,"v":5,"g":6,"b":7,"h":8,"n":9,"j":10,"m":11};
+  const heldKeys=new Set();
+  window.addEventListener("keydown",e=>{
+    if(e.repeat || !(e.key.toLowerCase() in keyMap))return;
+    const idx=keyMap[e.key.toLowerCase()], note=notes[idx];
+    if(sustain.checked){if(active.has(note.label))stop(note.label);else start(note);}
+    else {heldKeys.add(e.key.toLowerCase());start(note);}
+  });
+  window.addEventListener("keyup",e=>{
+    const k=e.key.toLowerCase();
+    if(!heldKeys.has(k))return;
+    heldKeys.delete(k);stop(notes[keyMap[k]].label);
+  });
+  window.addEventListener("blur",()=>{heldKeys.clear();[...active.keys()].forEach(stop)});
+})();
+</script>
+</body>
+</html>
